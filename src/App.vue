@@ -62,10 +62,10 @@ function generateSampleData(ohlc) {
   return res;
 }
 const generateVolumeData = (priceData, minVolume = 10, maxVolume = 100) => {
-	return priceData.map(point => ({
-		time: point.time, // Giữ nguyên ngày tháng từ priceData
-		value: Math.floor(Math.random() * (maxVolume - minVolume + 1)) + minVolume
-	}));
+  return priceData.map((point) => ({
+    time: point.time, // Giữ nguyên ngày tháng từ priceData
+    value: Math.floor(Math.random() * (maxVolume - minVolume + 1)) + minVolume,
+  }));
 };
 const chartOptions = ref({
   backgroundColor: "#121212",
@@ -75,11 +75,20 @@ const data = ref(generateSampleData(false));
 const chartType = ref("baseline");
 const lwChart = ref();
 const volumeData = generateVolumeData(data.value);
-console.log(volumeData)
+console.log(volumeData);
 </script>
 
 <template>
   <div class="chart-container">
+    <div class="chart-header">
+      <span class="chart-header__title">VNIndex</span>
+      <div class="chart-header__price">
+        <span class="chart-header__price-value">1,307.80</span>
+        <div class="chart-header__price-percent">
+          <span>+4.84</span><span>/</span><span>+0.37%</span>
+        </div>
+      </div>
+    </div>
     <LWChart
       :type="chartType"
       :data="data"
@@ -92,9 +101,37 @@ console.log(volumeData)
   </div>
 </template>
 <style scoped>
+.chart-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 1em;
+  color: white;
+  margin-bottom: 8px;
+}
+.chart-header__title {
+  font-size: 16px;
+  font-weight: bold;
+  color: rgb(152 163 179);
+}
+.chart-header__price {
+  display: flex;
+  align-items: flex-end;
+  font-size: 16px;
+  gap: 8px;
+}
+.chart-header__price-value {
+  font-size: 14px;
+  font-weight: bold;
+  color: green;
+}
+.chart-header__price-percent {
+  font-size: 12px;
+  color: green;
+}
 .chart-container {
-  height: calc(100% - 3.2em);
-  width: calc(100% - 5em);
+  height: calc(50%);
+  width: calc(70%);
   margin-top: 2.5em;
   margin-left: auto;
   margin-right: auto;
